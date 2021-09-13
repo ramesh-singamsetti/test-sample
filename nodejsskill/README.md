@@ -1,0 +1,1 @@
+curl --location --request GET 'http://localhost:3000/?pageNumber=1&pageSize=20'
