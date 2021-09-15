@@ -16,16 +16,16 @@ const getCountryNames = (countries) => {
 }
 
 const getEntryId = (video_url) => {
-  var subString = video_url.substring(
-    video_url.indexOf("entryId/") + 18,
-    video_url.indexOf("entryId/") + 8
-  );
-  return subString
+  if (video_url) {
+    return video_url.match(/(entryId)[/].*?(?=\/)/gi)[0].split("/")[1];
+  }
+  return "";
 }
 
 router.get('/', function (req, res) {
   const { pageNumber, pageSize } = req.query;
-  let start = pageNumber > 0 ? pageNumber - 1 : 0
+  let actualPage = pageNumber > 0 ? pageNumber - 1 : 0
+  let start = actualPage == 0 ? 0 : actualPage * pageSize;
   const API_END_POINT = `http://api.toongoggles.com/getobjects?version=12&object_type=video&video_type=feature&start=${start}&max=${pageSize}`
   axios.get(API_END_POINT)
     .then(function (response) {
